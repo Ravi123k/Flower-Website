@@ -375,26 +375,28 @@
     });
 
     const lyrics = [
-      { time: 5.5, text: "Fly me to the moon and <br>Let me play among the stars" },
-      { time: 8.3, text: "Let me play among the stars" },
-      { time: 12.1, text: "Let me see what spring is like" },
-      { time: 15.1, text: "On Jupiter and Mars" },
-      { time: 18.1, text: "In other words, hold my hand" },
-      { time: 22.1, text: "In other words, darling, kiss me" },
-      { time: 26.1, text: "Fill my heart with song" },
-      { time: 29.7, text: "And let me sing forever more" },
-      { time: 33.3, text: "You are all I long for" },
-      { time: 35.5, text: "All I worship and adore" },
-      { time: 38.7, text: "In other words, please be true" },
-      { time: 43.1, text: "In other words, I love you" },
-      { time: 48.6, text: "Fill my heart with song" },
-      { time: 52.2, text: "Let me sing forever more" },
-      { time: 55.7, text: "You are all I long for" },
-      { time: 58.0, text: "All I worship and adore" },
-      { time: 61.4, text: "In other words, please be true" },
-      { time: 65.5, text: "In other words," },
-      { time: 67.2, text: "In other words," },
-      { time: 68.8, text: "I love you" }
+      { time: 5.5, text: "Fly me to the moon and" },
+      { time: 9.5, text: "Let me play among the stars" },
+      { time: 15.1, text: "Let me see what spring is like" },
+      { time: 18.5, text: "On Jupiter and Mars" },
+      { time: 23.5, text: "In other words, hold my hand" },
+      { time: 32.5, text: "In other words, darling, kiss me" },
+      { time: 41.1, text: "Fill my heart with song" },
+      { time: 44.5, text: "And let me sing forever more" },
+      { time: 50.3, text: "You are all I long for" },
+      { time: 53.5, text: "All I worship and adore" },
+      { time: 58.7, text: "In other words, please be true" },
+      { time: 67.1, text: "In other words, I love you" },
+      { time: 108.6, text: "Fill my heart with song and" },
+      { time: 112.2, text: "Let me sing forever more" },
+      { time: 117.7, text: "You are all I long for" },
+      { time: 120.0, text: "All I worship and adore" },
+      { time: 125.4, text: "In other words," },
+      { time: 127.4, text: "Please be true" },
+      { time: 131.5, text: "In other words," },
+      { time: 135.5, text: "I Love You" },
+      { time: 140.2, text: "In other words," },
+      { time: 143.5, text: "I Love You" }
     ];
     let lyricIndex = 0;
     const flyingLyrics = document.getElementById('flying-lyrics');
@@ -405,7 +407,7 @@
       line.textContent = text;
       line.innerHTML = text; // This enables <br> and other HTML
       flyingLyrics.appendChild(line);
-      setTimeout(() => flyingLyrics.removeChild(line), 3000);
+      setTimeout(() => flyingLyrics.removeChild(line), 4000);
     }
 
     audio.addEventListener('timeupdate', () => {
