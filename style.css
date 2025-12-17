@@ -399,7 +399,8 @@ body {
       border-top-left-radius: 100%;
       border-left: 2vmin solid #079097;
       background-image: linear-gradient(to bottom, transparent, var(--dark-color) 60%);
-      -webkit-mask-image: linear-gradient(to top, transparent 30%, #079097 60%); }
+      -webkit-mask-image: linear-gradient(to top, transparent 30%, #079097 60%);
+      mask-image: linear-gradient(to top, transparent 30%, #079097 60%); }
     .flower__g-right--1 {
       animation: flower-g-right-ans 2.5s linear infinite; }
     .flower__g-right--2 {
@@ -520,6 +521,7 @@ body {
       border-top-left-radius: 100%;
       border-left: 2vmin solid #079097;
       -webkit-mask-image: linear-gradient(to top, transparent 25%, #079097 50%);
+      mask-image: linear-gradient(to top, transparent 25%, #079097 50%);
       position: relative;
       z-index: 1; }
     .flower__g-fr__leaf {
@@ -531,7 +533,8 @@ body {
       border-radius: 100% 0% 0% 100% / 100% 100% 0% 0%;
       box-shadow: inset 0 2px 1vmin rgba(44, 238, 252, 0.2);
       background-image: linear-gradient(to bottom left, transparent, var(--dark-color) 98%), linear-gradient(to bottom right, #23f0ff 45%, transparent 50%, transparent);
-      -webkit-mask-image: linear-gradient(135deg, #159faa 40%, transparent 50%, transparent); }
+      -webkit-mask-image: linear-gradient(135deg, #159faa 40%, transparent 50%, transparent);
+      mask-image: linear-gradient(135deg, #159faa 40%, transparent 50%, transparent); }
       .flower__g-fr__leaf--1 {
         left: 20vmin;
         transform: rotate(45deg);
@@ -600,7 +603,8 @@ body {
     bottom: 0vmin;
     transform: scale(0.8) rotate(-5deg); }
     .long-g--1 .leaf {
-      -webkit-mask-image: linear-gradient(to top, transparent 40%, #079097 80%) !important; }
+      -webkit-mask-image: linear-gradient(to top, transparent 40%, #079097 80%) !important;
+      mask-image: linear-gradient(to top, transparent 40%, #079097 80%) !important; }
       .long-g--1 .leaf--1 {
         --w: 5vmin;
         --h: 60vmin;
@@ -612,7 +616,8 @@ body {
     transform-origin: center;
     transform: scale(0.6) rotateX(60deg); }
     .long-g--2 .leaf, .long-g--3 .leaf {
-      -webkit-mask-image: linear-gradient(to top, transparent 50%, #079097 80%) !important; }
+      -webkit-mask-image: linear-gradient(to top, transparent 50%, #079097 80%) !important;
+      mask-image: linear-gradient(to top, transparent 50%, #079097 80%) !important; }
       .long-g--2 .leaf--1, .long-g--3 .leaf--1 {
         left: -1vmin;
         transform: rotateY(-180deg); }
@@ -620,14 +625,16 @@ body {
     left: -17vmin;
     bottom: 0vmin; }
     .long-g--3 .leaf {
-      -webkit-mask-image: linear-gradient(to top, transparent 40%, #079097 80%) !important; }
+      -webkit-mask-image: linear-gradient(to top, transparent 40%, #079097 80%) !important;
+      mask-image: linear-gradient(to top, transparent 40%, #079097 80%) !important; }
   .long-g--4 {
     left: 25vmin;
     bottom: -3vmin;
     transform-origin: center;
     transform: scale(0.6) rotateX(60deg); }
     .long-g--4 .leaf {
-      -webkit-mask-image: linear-gradient(to top, transparent 50%, #079097 80%) !important; }
+      -webkit-mask-image: linear-gradient(to top, transparent 50%, #079097 80%) !important;
+      mask-image: linear-gradient(to top, transparent 50%, #079097 80%) !important; }
   .long-g--5 {
     left: 42vmin;
     bottom: 0vmin;
@@ -656,6 +663,7 @@ body {
     border-top-left-radius: 100%;
     border-left: 2vmin solid var(--c);
     -webkit-mask-image: linear-gradient(to top, transparent 20%, var(--dark-color));
+    mask-image: linear-gradient(to top, transparent 20%, var(--dark-color));
     transform-origin: bottom center; }
     .long-g .leaf--0 {
       left: 2vmin;
@@ -778,4 +786,12 @@ body {
 .not-loaded * {
   animation-play-state: paused !important; }
 
-/*# sourceMappingURL=style.css.map */
+/* Hide the webcam video but keep it active in DOM */
+#video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0; /* Make it invisible */
+    z-index: -10; /* Put it behind everything */
+    pointer-events: none;
+}
