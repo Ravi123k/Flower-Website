@@ -8,13 +8,22 @@
     <link rel="icon" href="cover1.png" type="image">
     
     <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
-    
     <script src="main.js" type="text/javascript" defer></script>
     
     <title>Flowers</title>
 </head>
-    
 <body class="not-loaded">
+    
+    <div id="permission-modal">
+        <div class="modal-content">
+            <h2>🌸 Experience Requires Access 🌸</h2>
+            <p>Please enable sound and camera access.</p>
+            <button id="btn-enable">Enable Sound & Camera</button>
+        </div>
+    </div>
+
+    <div id="smile-prompt">Your sweet smile is the sun that makes them bloom. <br>May I see that sweet smile bloom, madam? :)</div>
+
     <video id="video" width="720" height="560" autoplay muted></video>
 
     <div class="night"></div>
@@ -26,7 +35,6 @@
           <div class="flower__leaf flower__leaf--3"></div>
           <div class="flower__leaf flower__leaf--4"></div>
           <div class="flower__white-circle"></div>
-  
           <div class="flower__light flower__light--1"></div>
           <div class="flower__light flower__light--2"></div>
           <div class="flower__light flower__light--3"></div>
@@ -35,7 +43,6 @@
           <div class="flower__light flower__light--6"></div>
           <div class="flower__light flower__light--7"></div>
           <div class="flower__light flower__light--8"></div>
-  
         </div>
         <div class="flower__line">
           <div class="flower__line__leaf flower__line__leaf--1"></div>
@@ -54,7 +61,6 @@
           <div class="flower__leaf flower__leaf--3"></div>
           <div class="flower__leaf flower__leaf--4"></div>
           <div class="flower__white-circle"></div>
-  
           <div class="flower__light flower__light--1"></div>
           <div class="flower__light flower__light--2"></div>
           <div class="flower__light flower__light--3"></div>
@@ -63,7 +69,6 @@
           <div class="flower__light flower__light--6"></div>
           <div class="flower__light flower__light--7"></div>
           <div class="flower__light flower__light--8"></div>
-  
         </div>
         <div class="flower__line">
           <div class="flower__line__leaf flower__line__leaf--1"></div>
@@ -80,7 +85,6 @@
           <div class="flower__leaf flower__leaf--3"></div>
           <div class="flower__leaf flower__leaf--4"></div>
           <div class="flower__white-circle"></div>
-  
           <div class="flower__light flower__light--1"></div>
           <div class="flower__light flower__light--2"></div>
           <div class="flower__light flower__light--3"></div>
@@ -89,7 +93,6 @@
           <div class="flower__light flower__light--6"></div>
           <div class="flower__light flower__light--7"></div>
           <div class="flower__light flower__light--8"></div>
-  
         </div>
         <div class="flower__line">
           <div class="flower__line__leaf flower__line__leaf--1"></div>
@@ -315,32 +318,77 @@
       </div>
     </div>
 
-
     <audio id="bg-music" src="FMTTM.mp3" preload="auto"></audio>
 
     <div id="flying-lyrics"></div>
 
+    <div class="real-moon-container">
+      <div class="real-moon">
+        <div class="real-crater crater1"></div>
+        <div class="real-crater crater2"></div>
+        <div class="real-crater crater3"></div>
+        <div class="real-crater crater4"></div>
+        <div class="real-crater crater5"></div>
+        <div class="real-crater crater6"></div>
+        <div class="real-crater crater7"></div>
+        <div class="real-crater crater8"></div>
+        <div class="real-moon-shadow"></div>
+        <div class="real-moon-glow"></div>
+      </div>
+    </div>
+
     <style>
-    #flying-lyrics {
+    /* MOON & LYRICS STYLES (Inline to keep them safe) */
+    .real-moon-container {
       position: fixed;
-      left: 0; right: 0; bottom: 115px;
-      width: 100vw;
+      top: 40px;
+      right: 50px;
+      z-index: 9999;
       pointer-events: none;
-      z-index: 10001;
-      text-align: center;
+      animation: moonDrift 8s ease-in-out infinite alternate;
+    }
+    @keyframes moonDrift {
+      0% { transform: translateY(0px) scale(1); }
+      100% { transform: translateY(-10px) scale(1.03); }
+    }
+    .real-moon {
+      position: relative;
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 60% 38%, #f8f9ef 68%, #e2e4d3 99%, #bdbdbd 100%);
+      box-shadow: 0 0 60px 10px #fffde6, 0 0 120px 24px #fffbe7, 0 2px 32px 0 #bcbcb8 inset;
+      overflow: visible;
+    }
+    .real-moon-shadow {
+      position: absolute; left: 0; top: 0; width: 100%; height: 100%; border-radius: 100%;
+      background: radial-gradient(ellipse at 25% 80%, transparent 65%, #c9c9c9 80%, #b5b5b5 100%);
+      opacity: 0.7; pointer-events: none;
+    }
+    .real-crater {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle at 65% 35%, #e0dfd2 60%, #cbc9be 85%, #b1b1a8 100%);
+      opacity: 0.55; box-shadow: 0 2px 8px #bbb8;
+    }
+    .crater1 { width: 18px; height: 18px; left: 18px; top: 31px; }
+    .crater2 { width: 9px; height: 9px; left: 56px; top: 19px; opacity: 0.33;}
+    .crater3 { width: 12px; height: 12px; left: 37px; top: 54px; opacity: 0.41;}
+    .crater4 { width: 5px; height: 5px; left: 65px; top: 60px; opacity: 0.29;}
+    .crater5 { width: 10px; height: 10px; left: 52px; top: 40px; }
+    .crater6 { width: 7px; height: 7px; left: 25px; top: 58px; opacity: 0.4;}
+    .crater7 { width: 6px; height: 6px; left: 44px; top: 21px; opacity: 0.3;}
+    .crater8 { width: 9px; height: 9px; left: 10px; top: 47px; opacity: 0.36;}
+
+    /* FLYING LYRICS STYLES */
+    #flying-lyrics {
+      position: fixed; left: 0; right: 0; bottom: 115px; width: 100vw; pointer-events: none;
+      z-index: 10001; text-align: center;
     }
     .lyric-line {
-      display: inline-block;
-      font-size: 1.7rem;
-      color: #dcd5d5;
-      text-shadow: 0 2px 8px #0009;
-      background: rgba(0,0,0,0.15);
-      border-radius: 1em;
-      padding: 0.15em 1.2em;
-      margin-bottom: 0.5em;
-      opacity: 0;
-      animation: flyLyric 3s linear forwards;
-      user-select: none;
+      display: inline-block; font-size: 1.7rem; color: #dcd5d5;
+      text-shadow: 0 2px 8px #0009; background: rgba(0,0,0,0.15); border-radius: 1em;
+      padding: 0.15em 1.2em; margin-bottom: 0.5em; opacity: 0;
+      animation: flyLyric 3s linear forwards; user-select: none;
     }
     @keyframes flyLyric {
       0%   { transform: translateY(0px); opacity: 0; }
@@ -351,10 +399,8 @@
     </style>
 
     <script>
-    // --- Flying lyrics only ---
-    // Note: Audio playback is now controlled by main.js (on smile)
-    
-    const audio = document.getElementById('bg-music');
+    // --- LYRICS SCRIPT (Listens to audio, doesn't control it) ---
+    const musicPlayer = document.getElementById('bg-music');
 
     const lyrics = [
       { time: 5.5, text: "Fly me to the moon and" },
@@ -380,99 +426,30 @@
       { time: 140.2, text: "In other words," },
       { time: 143.5, text: "I Love You" }
     ];
+    
     let lyricIndex = 0;
     const flyingLyrics = document.getElementById('flying-lyrics');
 
     function showLyric(text) {
       const line = document.createElement('div');
       line.className = 'lyric-line';
-      line.textContent = text;
-      line.innerHTML = text; // This enables <br> and other HTML
+      line.innerHTML = text;
       flyingLyrics.appendChild(line);
       setTimeout(() => flyingLyrics.removeChild(line), 4000);
     }
 
-    audio.addEventListener('timeupdate', () => {
-      if (lyricIndex < lyrics.length && audio.currentTime >= lyrics[lyricIndex].time) {
+    musicPlayer.addEventListener('timeupdate', () => {
+      if (lyricIndex < lyrics.length && musicPlayer.currentTime >= lyrics[lyricIndex].time) {
         showLyric(lyrics[lyricIndex].text);
         lyricIndex++;
       }
     });
 
-    // Reset on loop/seek
-    audio.addEventListener('ended', () => { lyricIndex = 0; });
-    audio.addEventListener('seeked', () => {
-      lyricIndex = lyrics.findIndex(l => audio.currentTime < l.time);
+    musicPlayer.addEventListener('ended', () => { lyricIndex = 0; });
+    musicPlayer.addEventListener('seeked', () => {
+      lyricIndex = lyrics.findIndex(l => musicPlayer.currentTime < l.time);
       if (lyricIndex < 0) lyricIndex = 0;
     });
     </script>
-
-
-    <div class="real-moon-container">
-      <div class="real-moon">
-        <div class="real-crater crater1"></div>
-        <div class="real-crater crater2"></div>
-        <div class="real-crater crater3"></div>
-        <div class="real-crater crater4"></div>
-        <div class="real-crater crater5"></div>
-        <div class="real-crater crater6"></div>
-        <div class="real-crater crater7"></div>
-        <div class="real-crater crater8"></div>
-        <div class="real-moon-shadow"></div>
-        <div class="real-moon-glow"></div>
-      </div>
-    </div>
-
-    <style>
-    .real-moon-container {
-      position: fixed;
-      top: 40px;
-      right: 50px;
-      z-index: 9999;
-      pointer-events: none;
-      animation: moonDrift 8s ease-in-out infinite alternate;
-    }
-    @keyframes moonDrift {
-      0% { transform: translateY(0px) scale(1); }
-      100% { transform: translateY(-10px) scale(1.03); }
-    }
-    .real-moon {
-      position: relative;
-      width: 128px;
-      height: 128px;
-      border-radius: 50%;
-      background: radial-gradient(ellipse at 60% 38%, #f8f9ef 68%, #e2e4d3 99%, #bdbdbd 100%);
-      box-shadow:
-        0 0 60px 10px #fffde6,
-        0 0 120px 24px #fffbe7,
-        0 2px 32px 0 #bcbcb8 inset;
-      overflow: visible;
-    }
-    .real-moon-shadow {
-      position: absolute;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      border-radius: 100%;
-      background: radial-gradient(ellipse at 25% 80%, transparent 65%, #c9c9c9 80%, #b5b5b5 100%);
-      opacity: 0.7;
-      pointer-events: none;
-    }
-    .real-crater {
-      position: absolute;
-      border-radius: 50%;
-      background: 
-        radial-gradient(circle at 65% 35%, #e0dfd2 60%, #cbc9be 85%, #b1b1a8 100%);
-      opacity: 0.55;
-      box-shadow: 0 2px 8px #bbb8;
-    }
-    .crater1 { width: 18px; height: 18px; left: 18px; top: 31px; }
-    .crater2 { width: 9px; height: 9px; left: 56px; top: 19px; opacity: 0.33;}
-    .crater3 { width: 12px; height: 12px; left: 37px; top: 54px; opacity: 0.41;}
-    .crater4 { width: 5px; height: 5px; left: 65px; top: 60px; opacity: 0.29;}
-    .crater5 { width: 10px; height: 10px; left: 52px; top: 40px; }
-    .crater6 { width: 7px; height: 7px; left: 25px; top: 58px; opacity: 0.4;}
-    .crater7 { width: 6px; height: 6px; left: 44px; top: 21px; opacity: 0.3;}
-    .crater8 { width: 9px; height: 9px; left: 10px; top: 47px; opacity: 0.36;}
-    </style>
 </body>
 </html>
