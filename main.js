@@ -1,87 +1,116 @@
-// main.js - Final Working Version
+// main.js - Final Version with Permission Button & Smile Prompt
 
-// 1. Select the elements
-// We use a specific name 'camVideo' to avoid conflicts with existing variables
 const camVideo = document.getElementById('video');
+const enableBtn = document.getElementById('btn-enable');
+const permissionModal = document.getElementById('permission-modal');
+const smilePrompt = document.getElementById('smile-prompt'); 
+const audio = document.getElementById('bg-music');
 let isBloomed = false; 
 
-// 2. Safety Check: Is the AI library loaded?
+// 1. Safety Check: Is the library loaded?
 if (typeof faceapi === 'undefined') {
-    console.error("ERROR: face-api.js not loaded. Check index.html script tags.");
-    alert("Critical Error: AI Library not found.");
+    console.error("Critical Error: face-api.js not loaded.");
+    alert("Error: face-api.js library missing. Check index.html");
 }
 
-// 3. Load the AI Models
-// These files must exist in a folder named 'models' next to your HTML file
+// 2. Load AI Models in the background immediately
 Promise.all([
     faceapi.nets.tinyFaceDetector.loadFromUri('./models'),
     faceapi.nets.faceExpressionNet.loadFromUri('./models')
 ]).then(() => {
-    console.log("AI Models Loaded. Starting Camera...");
-    startCamera();
+    console.log("AI Models Loaded. Waiting for user permission...");
 }).catch(err => {
-    console.error("MODEL LOAD ERROR:", err);
-    alert("Error: Could not load models. Check if the 'models' folder exists.");
+    console.error("MODEL ERROR:", err);
+    alert("Error loading AI models. Check 'models' folder.");
 });
 
-// 4. Start the Webcam
+// 3. Button Click Event: The "Key" to unlock everything
+enableBtn.addEventListener('click', () => {
+    console.log("User clicked Enable.");
+
+    // A. Unlock Audio Engine (Crucial for Android/iPhone)
+    // We play silence for a split second to get browser permission
+    audio.play().then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+    }).catch(e => console.log("Audio permission interaction captured"));
+
+    // B. Hide the Permission Modal
+    permissionModal.style.opacity = '0';
+    setTimeout(() => {
+        permissionModal.style.display = 'none';
+    }, 500);
+
+    // C. Show the "Smile to Bloom" Prompt after a small delay
+    setTimeout(() => {
+        if (!isBloomed) {
+            smilePrompt.style.opacity = '1'; 
+        }
+    }, 600);
+
+    // D. Start the Camera
+    startCamera();
+});
+
+// 4. Start Webcam Function
 function startCamera() {
     navigator.mediaDevices.getUserMedia({ video: {} })
         .then(stream => {
             camVideo.srcObject = stream;
-            console.log("Camera started successfully.");
+            console.log("Camera started.");
         })
         .catch(err => {
-            console.error("CAMERA ERROR:", err);
-            alert("Camera failed to start. Please use 'Live Server' and allow permissions.");
+            console.error("Camera Error:", err);
+            alert("Please allow camera access to see the magic!");
         });
 }
 
-// 5. Detect Smiles Loop
+// 5. Detection Loop (Runs when camera is playing)
 camVideo.addEventListener('play', () => {
-    // Create a loop that runs every 100 milliseconds
+    // Run the detection code every 100 milliseconds
     setInterval(async () => {
-        // If flowers are already blooming, stop checking (saves battery)
+        // If already bloomed, stop checking to save battery
         if (isBloomed) return; 
 
         try {
-            // Detect faces using the Tiny detector (faster)
+            // Detect faces using the Tiny detector (fast & lightweight)
             const detections = await faceapi.detectAllFaces(camVideo, new faceapi.TinyFaceDetectorOptions())
                 .withFaceExpressions();
 
             if (detections.length > 0) {
-                // Get the expressions of the first face found
                 const expressions = detections[0].expressions;
                 
-                // Debugging: Log the happiness score to console (F12)
-                // console.log("Happy Score:", expressions.happy); 
+                // Debug: Uncomment this line to see your smile score in the console (F12)
+                // console.log("Happy Score:", expressions.happy);
 
-                // Check if happy score is above 0.5 (50% smile)
+                // Check if happiness score is above 0.5 (50%)
                 if (expressions.happy > 0.5) {
                     triggerBloom();
                 }
             }
         } catch (error) {
-            console.error("Detection Error (Is video playing?):", error);
+            // Ignore small errors while camera is initializing
+            // console.warn("Detection Loop Warning:", error);
         }
     }, 100);
 });
 
-// 6. The Function to Bloom Flowers & Play Music
+// 6. The Bloom Function
 function triggerBloom() {
-    if (isBloomed) return; // Stop if already running
+    if (isBloomed) return; // Prevent double triggering
     isBloomed = true;
-    
-    console.log("SMILE DETECTED! Blooming now...");
 
-    // Remove the class that holds the animation back
+    console.log("SMILE DETECTED! Blooming...");
+
+    // Hide the "Smile to Bloom" text immediately
+    smilePrompt.style.opacity = '0';
+    setTimeout(() => { smilePrompt.style.display = 'none'; }, 500);
+
+    // Remove the class that holds the flower animation back
     document.body.classList.remove("not-loaded");
     
-    // Play the music
-    const audio = document.getElementById('bg-music');
-    if (audio) {
-        audio.volume = 0.5;
-        audio.loop = true;
-        audio.play().catch(e => console.warn("Audio autoplay blocked until user interaction", e));
-    }
+    // Play the Music (This works now because we unlocked it in Step 3)
+    audio.volume = 0.5;
+    audio.loop = true;
+    audio.play(); 
 }
